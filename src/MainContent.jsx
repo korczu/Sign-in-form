@@ -1,19 +1,10 @@
-import { Box, Typography } from "@mui/material";
+import { Autocomplete, Box, TextField, Typography } from "@mui/material";
 import React from "react";
-import {
-  Tooltip,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  ResponsiveContainer,
-  ReferenceLine,
-  ComposedChart,
-  Bar,
-  Area,
-  Legend,
-} from "recharts";
-const data = [
+import { useEffect } from "react";
+import { useState } from "react";
+import Rechart from "./Rechart";
+
+const chartData = [
   { name: "A", uv: 400, pv: 2400, amt: 2200 },
   { name: "B", uv: 500, pv: 1900, amt: 1700 },
   { name: "C", uv: 530, pv: 2470, amt: 2320 },
@@ -26,7 +17,52 @@ const data = [
   { name: "J", uv: 220, pv: 1800, amt: 1800 },
 ];
 
+const filmsData = [
+  "The Godfather",
+  "Pulp Fiction",
+  "Taxidermia ",
+  "Naked Lunch",
+  "There Will Be Blood",
+  "Trainspotting ",
+  "Delicatessen ",
+  "Requiem for a Dream",
+  "A Clockwork Orange",
+];
+
+function sleep(delay = 0) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, delay);
+  });
+}
+
 function MainContent(props) {
+  const [options, setOptions] = useState([]);
+  const [value, setValue] = useState(options[0]);
+  const [inputValue, setInputValue] = useState("");
+
+  useEffect(() => {
+    let active = true;
+
+    if (inputValue === "") {
+      setOptions([]);
+      return;
+    }
+    (async () => {
+      await sleep(800);
+
+      if (active) {
+        const results = filmsData.filter((film) =>
+          film.toLowerCase().includes(inputValue.toLowerCase())
+        );
+        setOptions([...results]);
+      }
+    })();
+    return () => {
+      active = false;
+      setOptions([]);
+    };
+  }, [inputValue]);
+
   return (
     <Box
       sx={{
@@ -38,22 +74,17 @@ function MainContent(props) {
       <Typography component="h1" variant="h5">
         Welcome {props.login}!
       </Typography>
-      <ResponsiveContainer height={300} width="100%">
-        <ComposedChart
-          data={data}
-          margin={{ top: 20, right: 0, bottom: 20, left: 0 }}
-        >
-          <Bar dataKey="uv" barSize={20} fill="#0a0afa" />
-          <Area type="monotone" dataKey="pv" fill="#cacaca" stroke="#0084d8" />
-          <Line type="monotone" dataKey="amt" stroke="#0ffa00" />
-          <CartesianGrid stroke="#ccc" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <ReferenceLine x="I" stroke="red" label="Min pv" />
-          <Legend verticalAlign="top" height={35} />
-        </ComposedChart>
-      </ResponsiveContainer>
+      <Rechart data={chartData} />
+      <Autocomplete
+        id="movie-autocomplete"
+        options={options}
+        value={value}
+        onChange={(event, newValue) => setValue(newValue)}
+        inputValue={inputValue}
+        onInputChange={(event, newValue) => setInputValue(newValue)}
+        sx={{ width: 300 }}
+        renderInput={(params) => <TextField {...params} label="Movie" />}
+      />
     </Box>
   );
 }
