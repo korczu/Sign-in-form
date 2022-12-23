@@ -9,7 +9,6 @@ import {
   Typography,
 } from "@mui/material";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
-import { useRef } from "react";
 
 function SignIn({ onSubmit, handleRememberMe }) {
   function handleSubmit(e) {
