@@ -9,11 +9,15 @@ import {
   Typography,
 } from "@mui/material";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
+import { useRef } from "react";
 
 function SignIn({ onSubmit, handleRememberMe }) {
   function handleSubmit(e) {
     e.preventDefault();
-    if (typeof onSubmit === "function") return onSubmit();
+    const data = new FormData(e.currentTarget);
+    const login = data.get("login");
+    const password = data.get("password");
+    if (typeof onSubmit === "function") return onSubmit({ login, password });
     throw new Error("onSubmit isn't function");
   }
   return (
