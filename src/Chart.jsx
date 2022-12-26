@@ -12,7 +12,7 @@ import {
   Legend,
 } from "recharts";
 
-function Rechart({ data }) {
+function Chart({ data }) {
   return (
     <ResponsiveContainer height={300} width="100%">
       <ComposedChart
@@ -33,4 +33,4 @@ function Rechart({ data }) {
   );
 }
 
-export default Rechart;
+export default Chart;
