@@ -16,7 +16,6 @@ function MovieInput() {
   const [inputValue, setInputValue] = useState("");
   const [open, setOpen] = useState(false);
   const isLoading = open && options.length === 0;
-  console.log(options, inputValue, value);
 
   const filmsFilter = React.useCallback(() => {
     const results = filmsData.filter((film) =>

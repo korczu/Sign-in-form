@@ -10,7 +10,6 @@ function App() {
   function onSubmit(value) {
     if (!value) throw Error("Value can not be null or undefined");
     setUser(value);
-    console.log(value);
   }
 
   return (
