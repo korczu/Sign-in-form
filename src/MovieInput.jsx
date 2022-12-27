@@ -11,27 +11,31 @@ function debounce(fnc, ms, timer) {
 }
 
 function MovieInput() {
-  const [options, setOptions] = useState([]);
-  const [value, setValue] = useState(filmsData[0]);
+  const [options, setOptions] = useState(filmsData);
+  const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState("");
   const [open, setOpen] = useState(false);
   const isLoading = open && options.length === 0;
+  console.log(options, inputValue, value);
 
   const filmsFilter = React.useCallback(() => {
     const results = filmsData.filter((film) =>
-      film.toLowerCase().includes(inputValue.toLowerCase())
+      value
+        ? film.toLowerCase().includes(inputValue.toLowerCase()) &&
+          film !== value
+        : film.toLowerCase().includes(inputValue.toLowerCase())
     );
-    setOptions([...results]);
-  }, [inputValue]);
+    setOptions(value ? [...results, value] : results);
+  }, [inputValue, value]);
 
   useEffect(() => {
     if (inputValue === "") {
-      setOptions([]);
+      setOptions(value ? [value] : []);
       return;
     }
     let timer;
     debounce(filmsFilter, 500, timer);
-  }, [inputValue, filmsFilter]);
+  }, [inputValue, filmsFilter, value]);
 
   return (
     <>
@@ -43,9 +47,13 @@ function MovieInput() {
         onClose={() => setOpen(false)}
         options={options}
         value={value}
-        onChange={(event, newValue) => setValue(newValue)}
         inputValue={inputValue}
-        onInputChange={(event, newValue) => setInputValue(newValue)}
+        onChange={(event, newValue) => {
+          setValue(newValue);
+        }}
+        onInputChange={(event, newValue) => {
+          setInputValue(newValue);
+        }}
         sx={{ width: 300 }}
         renderInput={(params) => <TextField {...params} label="Movie" />}
       />
