@@ -4,13 +4,15 @@ import { filmsData } from "./data";
 import { useEffect } from "react";
 
 function debounce(fnc, ms, timer) {
+  if (typeof fnc !== "function")
+    throw new Error(`fnc is ${typeof fnc}, it must be function!`);
   clearTimeout(timer);
   timer = setTimeout(fnc, ms);
 }
 
 function MovieInput() {
   const [options, setOptions] = useState([]);
-  const [value, setValue] = useState(options[0]);
+  const [value, setValue] = useState(filmsData[0]);
   const [inputValue, setInputValue] = useState("");
   const [open, setOpen] = useState(false);
   const isLoading = open && options.length === 0;
@@ -19,7 +21,6 @@ function MovieInput() {
     const results = filmsData.filter((film) =>
       film.toLowerCase().includes(inputValue.toLowerCase())
     );
-
     setOptions([...results]);
   }, [inputValue]);
 
