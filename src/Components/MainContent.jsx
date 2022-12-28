@@ -1,10 +1,13 @@
 import { Box, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import Chart from "./Chart";
 import { chartData } from "../data";
 import MovieInput from "./MovieInput";
 
 function MainContent(props) {
+  const [value, setValue] = useState(null);
+  const [inputValue, setInputValue] = useState("");
+
   return (
     <Box
       sx={{
@@ -17,7 +20,18 @@ function MainContent(props) {
         Welcome {props.login}!
       </Typography>
       <Chart data={chartData} />
-      <MovieInput />
+      <Typography component="p" variant="body1">
+        value:{value}
+      </Typography>
+      <Typography component="p" variant="body1">
+        inputValue:{inputValue}
+      </Typography>
+      <MovieInput
+        value={value}
+        setValue={setValue}
+        inputValue={inputValue}
+        setInputValue={setInputValue}
+      />
     </Box>
   );
 }

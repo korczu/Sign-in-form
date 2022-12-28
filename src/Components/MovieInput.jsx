@@ -10,10 +10,8 @@ function debounce(fnc, ms, timer) {
   timer = setTimeout(fnc, ms);
 }
 
-function MovieInput() {
+function MovieInput({ value, setValue, inputValue, setInputValue }) {
   const [options, setOptions] = useState([]);
-  const [value, setValue] = useState(null);
-  const [inputValue, setInputValue] = useState("");
   const [open, setOpen] = useState(false);
   const isLoading = open && options.length === 0;
 
