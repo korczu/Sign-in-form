@@ -5,7 +5,7 @@ import { chartData } from "../data";
 import MovieInput from "./MovieInput";
 import { filmsData } from "../data";
 
-function MainContent(props) {
+function MainContent({ username }) {
   const [value, setValue] = useState(null);
   const [options, setOptions] = useState([]);
   const getOptions = (input) => {
@@ -38,7 +38,7 @@ function MainContent(props) {
       }}
     >
       <Typography component="h1" variant="h5">
-        Welcome {props.login}!
+        Welcome {username}!
       </Typography>
       <Chart data={chartData} />
       <Typography component="p" variant="body1">

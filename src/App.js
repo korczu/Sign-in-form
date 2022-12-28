@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import MainContent from "./Components/MainContent";
 
 function App() {
-  const initUser = { login: "", password: "" };
+  const initUser = { username: "", password: "" };
   const [user, setUser] = useState(initUser);
 
   function onSubmit(value) {
@@ -17,7 +17,7 @@ function App() {
       {user === initUser ? (
         <SignIn onSubmit={onSubmit}></SignIn>
       ) : (
-        <MainContent login={user.login}></MainContent>
+        <MainContent username={user.username}></MainContent>
       )}
     </Container>
   );

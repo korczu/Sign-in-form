@@ -14,9 +14,9 @@ function SignIn({ onSubmit, handleRememberMe }) {
   function handleSubmit(e) {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
-    const login = data.get("login");
+    const username = data.get("username");
     const password = data.get("password");
-    if (typeof onSubmit === "function") return onSubmit({ login, password });
+    if (typeof onSubmit === "function") return onSubmit({ username, password });
     throw new Error("onSubmit isn't function");
   }
   return (
@@ -44,10 +44,11 @@ function SignIn({ onSubmit, handleRememberMe }) {
         }}
       >
         <TextField
+          autoComplete
           margin="normal"
-          id="login"
-          label="Login"
-          name="login"
+          id="username"
+          label="Username"
+          name="username"
           variant="outlined"
           autoFocus
           required
