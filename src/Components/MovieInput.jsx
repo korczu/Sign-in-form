@@ -1,39 +1,10 @@
 import React, { useState } from "react";
 import { Autocomplete, TextField } from "@mui/material";
-import { filmsData } from "../data";
-import { useEffect } from "react";
 
-function debounce(fnc, ms, timer) {
-  if (typeof fnc !== "function")
-    throw new Error(`fnc is ${typeof fnc}, it must be function!`);
-  clearTimeout(timer);
-  timer = setTimeout(fnc, ms);
-}
-
-function MovieInput({ value, setValue, inputValue, setInputValue }) {
-  const [options, setOptions] = useState([]);
+function MovieInput({ value, setValue, getOptions, options }) {
   const [open, setOpen] = useState(false);
-  const isLoading = open && options.length === 0;
-
-  const filmsFilter = React.useCallback(() => {
-    const results = filmsData.filter((film) =>
-      value
-        ? film.toLowerCase().includes(inputValue.toLowerCase()) &&
-          film !== value
-        : film.toLowerCase().includes(inputValue.toLowerCase())
-    );
-    setOptions(value ? [...results, value] : results);
-  }, [inputValue, value]);
-
-  useEffect(() => {
-    if (inputValue === "") {
-      setOptions(value ? [value] : []);
-      return;
-    }
-    let timer;
-    debounce(filmsFilter, 500, timer);
-  }, [inputValue, filmsFilter, value]);
-
+  const [inputValue, setInputValue] = useState("");
+  const isLoading = options?.length === 0 && open;
   return (
     <>
       <Autocomplete
@@ -45,11 +16,10 @@ function MovieInput({ value, setValue, inputValue, setInputValue }) {
         options={options}
         value={value}
         inputValue={inputValue}
-        onChange={(event, newValue) => {
-          setValue(newValue);
-        }}
+        onChange={(event, newValue) => setValue(newValue)}
         onInputChange={(event, newValue) => {
           setInputValue(newValue);
+          getOptions(newValue);
         }}
         sx={{ width: 300 }}
         renderInput={(params) => <TextField {...params} label="Movie" />}
