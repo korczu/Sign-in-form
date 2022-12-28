@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Autocomplete, TextField } from "@mui/material";
-import { filmsData } from "./data";
+import { filmsData } from "../data";
 import { useEffect } from "react";
 
 function debounce(fnc, ms, timer) {
@@ -11,7 +11,7 @@ function debounce(fnc, ms, timer) {
 }
 
 function MovieInput() {
-  const [options, setOptions] = useState(filmsData);
+  const [options, setOptions] = useState([]);
   const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState("");
   const [open, setOpen] = useState(false);

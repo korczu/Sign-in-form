@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
 import Chart from "./Chart";
-import { chartData } from "./data";
+import { chartData } from "../data";
 import MovieInput from "./MovieInput";
 
 function MainContent(props) {

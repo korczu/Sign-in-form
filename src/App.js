@@ -1,7 +1,7 @@
 import { Container } from "@mui/system";
-import SignIn from "./SignIn";
+import SignIn from "./Components/SignIn";
 import React, { useState } from "react";
-import MainContent from "./MainContent";
+import MainContent from "./Components/MainContent";
 
 function App() {
   const initUser = { login: "", password: "" };
