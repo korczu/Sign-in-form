@@ -44,7 +44,6 @@ function SignIn({ onSubmit, handleRememberMe }) {
         }}
       >
         <TextField
-          autoComplete
           margin="normal"
           id="username"
           label="Username"
