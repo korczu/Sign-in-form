@@ -3,24 +3,24 @@ import React from "react";
 import FormRow from "./FormRow";
 
 function Form({ setMapping }) {
-  const [currentRow, setCurrentRow] = React.useState(0);
+  const [rowIndex, setRowIndex] = React.useState(0);
   const [meta, setMeta] = React.useState([{}]);
   const [properties, setProperties] = React.useState([{}]);
   const [rows, setRows] = React.useState([
     <FormRow
-      key={currentRow}
+      key={rowIndex}
       setValue={(newValue) => {
-        const tmp1 = meta;
-        tmp1[currentRow] = newValue._meta;
-        setMeta(tmp1);
-        const tmp2 = properties;
-        tmp2[currentRow] = newValue.properties;
-        setProperties(tmp2);
+        const tmpMeta = meta;
+        tmpMeta[rowIndex] = newValue._meta;
+        setMeta(tmpMeta);
+        const tmpProperties = properties;
+        tmpProperties[rowIndex] = newValue.properties;
+        setProperties(tmpProperties);
 
         setMapping({
           mappings: {
-            _meta: [...tmp1],
-            properties: [...tmp2],
+            _meta: [...tmpMeta],
+            properties: [...tmpProperties],
           },
         });
       }}
@@ -42,23 +42,23 @@ function Form({ setMapping }) {
         margin="normal"
         size="small"
         onClick={() => {
-          setCurrentRow(currentRow + 1);
+          setRowIndex(rowIndex + 1);
           setRows([
             ...rows,
             <FormRow
-              key={currentRow + 1}
+              key={rowIndex + 1}
               setValue={(newValue) => {
-                const tmp1 = meta;
-                tmp1[currentRow + 1] = newValue._meta;
-                setMeta(tmp1);
-                const tmp2 = properties;
-                tmp2[currentRow + 1] = newValue.properties;
-                setProperties(tmp2);
+                const tmpMeta = meta;
+                tmpMeta[rowIndex + 1] = newValue._meta;
+                setMeta(tmpMeta);
+                const tmpProperties = properties;
+                tmpProperties[rowIndex + 1] = newValue.properties;
+                setProperties(tmpProperties);
 
                 setMapping({
                   mappings: {
-                    _meta: [...tmp1],
-                    properties: [...tmp2],
+                    _meta: [...tmpMeta],
+                    properties: [...tmpProperties],
                   },
                 });
               }}
