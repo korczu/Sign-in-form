@@ -13,7 +13,7 @@ function FormPage() {
 
   return (
     <>
-      <Form setMapping={setMapping}></Form>
+      <Form mapping={mapping} setMapping={setMapping}></Form>
       <Typography component="pre" variant="body1">
         {JSON.stringify(mapping, null, "\t")}
       </Typography>
