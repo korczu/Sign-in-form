@@ -1,157 +1,73 @@
-import {
-  Box,
-  Button,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button } from "@mui/material";
 import React from "react";
+import FormRow from "./FormRow";
 
-function Form({ value }) {
-  const defaultValue = {
-    mappings: {
-      _meta: {},
-      properties: {},
-    },
-  };
-  const [mapping, setMapping] = React.useState(value || defaultValue);
-  const [id, setID] = React.useState("");
-  const [name, setName] = React.useState("");
-  const [type, setType] = React.useState("");
-  const [unit, setUnit] = React.useState(false);
-  const [required, setRequired] = React.useState(false);
-  const [nullValue, setNullValue] = React.useState("");
+function Form({ setMapping }) {
+  const [currentRow, setCurrentRow] = React.useState(0);
+  const [meta, setMeta] = React.useState([{}]);
+  const [properties, setProperties] = React.useState([{}]);
+  const [rows, setRows] = React.useState([
+    <FormRow
+      key={currentRow}
+      setValue={(newValue) => {
+        const tmp1 = meta;
+        tmp1[currentRow] = newValue._meta;
+        setMeta(tmp1);
+        const tmp2 = properties;
+        tmp2[currentRow] = newValue.properties;
+        setProperties(tmp2);
 
-  function handleClick() {
-    const meta = {
-      ...mapping.mappings._meta,
-      [id]: {
-        name,
-        required,
-        unit,
-      },
-    };
-    const properties = {
-      ...mapping.mappings.properties,
-      [id]: {
-        type,
-        nullValue,
-      },
-    };
-    setMapping({
-      ...mapping,
-      mappings: {
-        _meta: { ...meta },
-        properties: { ...properties },
-      },
-    });
-  }
+        setMapping({
+          mappings: {
+            _meta: [...tmp1],
+            properties: [...tmp2],
+          },
+        });
+      }}
+    />,
+  ]);
+
   return (
-    <Box>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
+    <Box
+      margin="normal"
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <Box>{[...rows]}</Box>
+      <Button
+        variant="contained"
+        margin="normal"
+        size="small"
+        onClick={() => {
+          setCurrentRow(currentRow + 1);
+          setRows([
+            ...rows,
+            <FormRow
+              key={currentRow + 1}
+              setValue={(newValue) => {
+                const tmp1 = meta;
+                tmp1[currentRow + 1] = newValue._meta;
+                setMeta(tmp1);
+                const tmp2 = properties;
+                tmp2[currentRow + 1] = newValue.properties;
+                setProperties(tmp2);
+
+                setMapping({
+                  mappings: {
+                    _meta: [...tmp1],
+                    properties: [...tmp2],
+                  },
+                });
+              }}
+            />,
+          ]);
         }}
       >
-        <TextField
-          margin="normal"
-          id="columnName"
-          size="small"
-          label="Column Name"
-          name="columnName"
-          value={name}
-          variant="standard"
-          onChange={(e) => {
-            const inputValue = e.target.value;
-            const inputValueModified = inputValue
-              .toLowerCase()
-              .split(" ")
-              .join("_");
-            setName(inputValue);
-            setID(inputValueModified);
-          }}
-        />
-        <FormControl
-          variant="standard"
-          size="small"
-          sx={{ minWidth: 120 }}
-          margin="normal"
-        >
-          <InputLabel id="typeLabel">Type</InputLabel>
-          <Select
-            labelId="typeLabel"
-            id="type"
-            value={type}
-            label="Type"
-            onChange={(e) => {
-              const inputValue = e.target.value;
-              setType(inputValue);
-            }}
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value="text">Text</MenuItem>
-            <MenuItem value="boolean">Boolean</MenuItem>
-            <MenuItem value="keyword">Keyword</MenuItem>
-          </Select>
-        </FormControl>
-        <TextField
-          size="small"
-          margin="normal"
-          id="nullValue"
-          value={nullValue}
-          label="Null value"
-          name="nullValue"
-          variant="standard"
-          onChange={(e) => {
-            const inputValue = e.target.value;
-            setNullValue(inputValue);
-          }}
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              size="small"
-              value={required}
-              onChange={() => {
-                setRequired(!required);
-              }}
-            />
-          }
-          label="Required"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              size="small"
-              value={unit}
-              onChange={() => {
-                setUnit(!unit);
-              }}
-            />
-          }
-          label="Unit"
-        />
-        <Button
-          variant="contained"
-          margin="normal"
-          size="small"
-          onClick={handleClick}
-        >
-          Add
-        </Button>
-      </Box>
-      <Typography component="pre" variant="body1">
-        {JSON.stringify(mapping, null, "\t")}
-      </Typography>
+        New Row
+      </Button>
     </Box>
   );
 }

@@ -4,11 +4,10 @@ import Chart from "./Chart";
 import { chartData } from "../data";
 import MovieInput from "./MovieInput";
 import { filmsData } from "../data";
-import Form from "./Form";
-import SignIn from "./SignIn";
+import FormPage from "./FormPage";
 
 function MainContent({ currentPage, setUser }) {
-  const [value, setValue] = useState(null);
+  const [value, setValue] = React.useState(null);
   const [options, setOptions] = useState([]);
 
   const getOptions = (input) => {
@@ -65,7 +64,7 @@ function MainContent({ currentPage, setUser }) {
           flexDirection: "column",
         }}
       >
-        <Form />;
+        <FormPage />
       </Box>
     );
   }

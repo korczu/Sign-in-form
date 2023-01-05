@@ -8,9 +8,8 @@ const initUser = { username: "", password: "" };
 
 function App() {
   const [user, setUser] = useState(initUser);
-  const [showSignIn, setShowSignIn] = React.useState(false);
-
   const pages = ["Chart", "Autocomplete", "Form"];
+  const [showSignIn, setShowSignIn] = React.useState(false);
   const [currentPage, setCurrentPage] = React.useState(pages[2]);
 
   function onSubmit(value) {
