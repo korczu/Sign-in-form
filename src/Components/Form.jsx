@@ -8,7 +8,26 @@ function Form({ mapping, setMapping }) {
 
   const children = rows.map((row) =>
     React.cloneElement(row, {
-      setValue: (newValue) => {
+      setValue: (newValue, oldKey) => {
+        if (oldKey !== "" && oldKey !== Object.keys(newValue)) {
+          return setMapping((current) => {
+            // Delete old entity and create new one if key value is overwritten
+            const tmpMeta = current.mappings._meta;
+            const tmpProperties = current.mappings.properties;
+            delete tmpMeta[oldKey];
+            delete tmpProperties[oldKey];
+            return {
+              mappings: {
+                _meta: { ...tmpMeta, ...newValue._meta },
+                properties: {
+                  ...tmpProperties,
+                  ...newValue.properties,
+                },
+              },
+            };
+          });
+        }
+        // Create new entity
         setMapping({
           mappings: {
             _meta: { ...mapping.mappings._meta, ...newValue._meta },

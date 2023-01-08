@@ -11,6 +11,7 @@ import {
   TextField,
 } from "@mui/material";
 function FormRow({ setValue }) {
+  const [oldKey, setOldKey] = React.useState("");
   const [key, setKey] = React.useState("");
   const [name, setName] = React.useState("");
   const [type, setType] = React.useState("");
@@ -32,10 +33,14 @@ function FormRow({ setValue }) {
         nullValue,
       },
     };
-    setValue({
-      _meta,
-      properties,
-    });
+    setOldKey(key);
+    setValue(
+      {
+        _meta,
+        properties,
+      },
+      oldKey
+    );
   }
   return (
     <Box
